@@ -5,10 +5,14 @@ const getDTOs = require('../utils/get-dtos');
 class ClientService {
     async get(page, limit) {
         const clientsArrayObject = {
-            total_count: 0,
+            pagination: {
+                limit: limit,
+                page: page,
+                total_count: 0,
+            },
             clients: []
         };
-        clientsArrayObject.total_count = await clientModel.countDocuments();
+        clientsArrayObject.pagination.total_count = await clientModel.countDocuments();
         const clients = await clientModel.find().skip((page - 1) * limit).limit(limit);
         clientsArrayObject.clients = getDTOs(ClientDTO, clients);
         return clientsArrayObject;

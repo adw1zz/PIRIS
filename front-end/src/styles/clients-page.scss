@@ -1,0 +1,160 @@
+.clients-page {
+    width: 100vw;
+    height: 100vh;
+
+    .header {
+        width: 100%;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        font-size: xx-large;
+        background-color: #b6b6b6;
+        color: #6e6e6efd;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        justify-content: center;
+        border-bottom: 2px solid #6b6b6bfd;
+        border-radius: 4px;
+    }
+
+    .clients-grid-block {
+        display: flex;
+        height: 70%;
+        justify-content: center;
+        padding: 40px;
+
+        .clients-grid-container {
+            width: 100%;
+
+            .clients {
+                display: block;
+                height: 100%;
+
+                .client-header {
+                    margin-top: 5px;
+                    border: 1px solid #858585fd;
+                    border-radius: 4px;
+                    padding: 5px;
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(5.26%, 1fr));
+
+                    div {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        border-right: 1px solid #6b6b6bfd;
+                        font-size: medium;
+                        font-weight: 600;
+                        padding-left: 10px;
+                        padding-right: 10px;
+                        -webkit-touch-callout: none;
+                        -webkit-user-select: none;
+                        -khtml-user-select: none;
+                        -moz-user-select: none;
+                        -ms-user-select: none;
+                        user-select: none;
+                    }
+                }
+
+                .client {
+                    margin-top: 5px;
+                    border: 1px solid #858585fd;
+                    border-radius: 4px;
+                    padding: 5px;
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(5.26%, 1fr));
+                    transition: 0.4s;
+                    cursor: pointer;
+
+                    div {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        border-right: 1px solid #6b6b6bfd;
+                        font-size: medium;
+                        font-weight: 600;
+                        padding-left: 10px;
+                        transition: 0.3s;
+                    }
+
+                    &:hover {
+                        background-color: #969696fd;
+                        transform: translate3d(2px, 2px, 0px);
+                    }
+                }
+            }
+        }
+
+        .load {
+            width: 100%;
+            display: flex;
+            align-items: center;
+
+            span {
+                margin: 0 auto;
+                width: 50%;
+            }
+        }
+
+    }
+
+    .footer {
+        width: 100%;
+        position: absolute;
+        padding-bottom: 70px;
+        padding-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 0px;
+
+        .pagination {
+            display: flex;
+            width: 20%;
+            justify-content: space-between;
+            vertical-align: middle;
+
+            button {
+                cursor: pointer;
+                transition: 0.2s;
+                background-color: #8a8a8afd;
+                color: #cccccc;
+                border: none;
+                font-size: large;
+                border-radius: 4px;
+                padding: 4px 6px 4px 6px;
+
+                &:hover {
+                    color: #eeeeee;
+                }
+
+                &:active {
+                    color: #eeeeee;
+                    transform: translate(2px, 4px)
+                }
+            }
+
+            div {
+                display: flex;
+                font-size: larger;
+                align-items: center;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                vertical-align: middle;
+            }
+        }
+    }
+
+}

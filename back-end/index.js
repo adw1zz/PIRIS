@@ -1,11 +1,16 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('./db/mongodb-inst');
 const app = express();
 const PORT = process.env.PORT;
 const errorMiddleware = require('./middlewares/error-middleware');
 const clientRouter = require('./routers/client-router');
 
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+}));
 app.use(express.json());
 app.use('/api/clients', clientRouter);
 app.use(errorMiddleware);
