@@ -8,7 +8,7 @@ export const ClientFieldsMap = new Map([
     ['address_of_the_actual_residence', 'Адрес фактического проживания'],
     ['home_phone', 'Дом. номер телефона'],
     ['mob_phone', 'Моб. номер телефона'],
-    ['email', 'Почта'],
+    ['email', 'Email'],
     ['workplace', 'Место работы'],
     ['post', 'Должность'],
     ['city_of_residence', 'Город по прописке'],

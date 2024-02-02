@@ -4,7 +4,8 @@ import "../styles/loaders.scss"
 import { getClients, newClient, updateClient, deleteClients } from '../services/clients-service';
 import { useDispatch, useSelector } from "react-redux";
 import { updatePagination } from "../store/reducers/clients-reducer";
-import { ClientFieldsMap } from "./client-map";
+import { ClientFieldsMap } from "./client-scheme-fields-map";
+import FormModalWindow from "./components/FormModalWindow";
 
 const Clients = () => {
 
@@ -64,12 +65,13 @@ const Clients = () => {
 
     return (
         <div className="clients-page">
+            <FormModalWindow />
             <div className="header">
                 Список клиентов
             </div>
             <div className="clients-grid-block">
                 {loading
-                    ? <div className="load"><span className="get-clients-loader"></span></div>
+                    ? <div className="clients-array-load"><span className="get-clients-loader"></span></div>
                     : <div className="clients-grid-container">
                         <div className="clients">
                             <div className="client-header">
