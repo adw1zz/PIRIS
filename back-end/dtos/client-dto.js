@@ -22,13 +22,13 @@ module.exports = class ClientDto {
 
     constructor(model) {
         const date = new Date(model.birthdate);
-        this.birthdate = `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+        this.birthdate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
         this.id = model.id;
         this.name = model.name;
         this.surname = model.surname;
         this.patronymic = model.patronymic;
         this.gender = model.gender;
-        this.city_of_actual_residence = model.address_of_the_actual_residence;
+        this.city_of_actual_residence = model.city_of_actual_residence;
         this.address_of_the_actual_residence = model.address_of_the_actual_residence;
         this.home_phone = model.home_phone;
         this.mob_phone = model.mob_phone;

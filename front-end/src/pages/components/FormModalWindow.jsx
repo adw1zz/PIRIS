@@ -1,36 +1,71 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { newClient, updateClient, getClients } from '../../services/clients-service';
 
-const FormModalWindow = ({ callback, title, defualtValue }) => {
+const FormModalWindow = ({ show, data }) => {
+
+    const dispatch = useDispatch();
+    const pagination = useSelector(state => state.clientsData.pagination);
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                show(false)
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [])
+
+    const submitHandle = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const formValue = {};
+        for (let pair of formData.entries()) {
+            formValue[pair[0]] = pair[1]
+        }
+        formValue['liable'] = e.target['liable'].checked;
+        formValue['retiree'] = e.target['retiree'].checked;
+        data.title === 'Редактирование' ? dispatch(updateClient({...formValue, id: data.defaultData.id})) : dispatch(newClient(formValue));
+        dispatch(getClients(pagination))
+        show(false);
+    }
+
     return (
         <div className="form-modal-window">
-            <form>
-                <div className="title"><span>Title</span></div>
+            <div className="form-modal-header">Esc - закрыть</div>
+            <form onSubmit={submitHandle}>
+                <div className="title"><span>{data.title}</span></div>
                 <div className="form-inputs">
                     <div className="inp-overlay">
-                        <label for='name'>Имя</label>
-                        <input id="name" type="text" name="name" required={true} />
+                        <label htmlFor='name'>Имя</label>
+                        <input id="name" type="text" defaultValue={data.defaultData.name ? data.defaultData.name : ''} name="name" required={true} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='surname'>Фамилия</label>
-                        <input id='surname' type="text" name="surname" required={true} />
+                        <label htmlFor='surname'>Фамилия</label>
+                        <input id='surname' defaultValue={data.defaultData.surname ? data.defaultData.surname : ''} type="text" name="surname" required={true} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='patronymic'>Отчество</label>
-                        <input id='patronymic' type="text" name="patronymic" required={true} />
+                        <label htmlFor='patronymic'>Отчество</label>
+                        <input id='patronymic' defaultValue={data.defaultData.patronymic ? data.defaultData.patronymic : ''} type="text" name="patronymic" required={true} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='birthdate'>Дата рождения</label>
-                        <input type="date" id='birthdate' name="birthdate" required={true} />
+                        <label htmlFor='birthdate'>Дата рождения</label>
+                        <input type="date" defaultValue={data.defaultData.birthdate ? data.defaultData.birthdate : ''} id='birthdate' name="birthdate" required={true} />
+                    </div>
+                    <div className="inp-overlay-spec">
+                        <div>
+                            <label htmlFor="male">Муж.</label>
+                            <input id='male' defaultChecked={data.defaultData.gender === 'Мужчина'} name="gender" value={'Мужчина'} type="radio" />
+                            <label htmlFor="female">Жен.</label>
+                            <input id='female' defaultChecked={data.defaultData.gender === 'Женщина'} name="gender" value={'Женшщина'} type="radio" />
+                        </div>
                     </div>
                     <div className="inp-overlay">
-                        <label for="male">Муж.</label>
-                        <input id='male' name="gender" value={'Мужчина'} type="radio" />
-                        <label for="female">Жен.</label>
-                        <input id='female' name="gender" value={'Мужчина'} type="radio" />
-                    </div>
-                    <div className="inp-overlay">
-                        <label for='city_of_actual_residence' >Город фактического проживания</label>
-                        <select id='city_of_actual_residence' name="city_of_actual_residence" required={true}>
+                        <label htmlFor='city_of_actual_residence' >Город фактического проживания</label>
+                        <select id='city_of_actual_residence' name="city_of_actual_residence" defaultValue={data.defaultData.city_of_actual_residence ? data.defaultData.city_of_actual_residence : ''} required={true}>
                             <option value=''>Выберите Город</option>
                             <option value='Минск'>Минск</option>
                             <option value='Гомель'>Гродно</option>
@@ -40,34 +75,34 @@ const FormModalWindow = ({ callback, title, defualtValue }) => {
                         </select>
                     </div>
                     <div className="inp-overlay">
-                        <label for='address_of_the_actual_residence'>Адрес фактического проживания</label>
-                        <input type="text" id='address_of_the_actual_residence' name="address_of_the_actual_residence" required={true} />
+                        <label htmlFor='address_of_the_actual_residence'>Адрес фактического проживания</label>
+                        <input type="text" id='address_of_the_actual_residence' name="address_of_the_actual_residence" defaultValue={data.defaultData.address_of_the_actual_residence ? data.defaultData.address_of_the_actual_residence : ''} required={true} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='home_phone'>Телефон дом.</label>
-                        <input type="text" id='home_phone' name="home_phone" required={false} maxLength={7} minLength={7} />
+                        <label htmlFor='home_phone'>Телефон дом.</label>
+                        <input type="text" id='home_phone' name="home_phone" defaultValue={data.defaultData.home_phone ? data.defaultData.home_phone : ''} required={false} pattern="\d{7}" />
                     </div>
                     <div className="inp-overlay">
-                        <label for='mob_phone'>Телефон моб.</label>
-                        <input type="text" id='mob_phone' name="mob_phone" placeholder="+375..." required={false} maxLength={13} minLength={13} pattern="\\+375.*" />
+                        <label htmlFor='mob_phone'>Телефон моб.</label>
+                        <input type="text" id='mob_phone' name="mob_phone" defaultValue={data.defaultData.mob_phone ? data.defaultData.mob_phone : '+375'} required={false} pattern="\+375\d{9}" />
                     </div>
                     <div className="inp-overlay">
-                        <label for='email'>Email</label>
-                        <input type="email" id='email' name="email" required={false} />
+                        <label htmlFor='email'>Email</label>
+                        <input type="email" id='email' defaultValue={data.defaultData.email ? data.defaultData.email : ''} name="email" required={false} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='workplace'>Место работы</label>
-                        <input type="text" id='workplace' name="workplace" required={false} />
+                        <label htmlFor='workplace'>Место работы</label>
+                        <input type="text" id='workplace' defaultValue={data.defaultData.workplace ? data.defaultData.workplace : ''} name="workplace" required={false} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='post'>Должность</label>
-                        <input type="text" id='post' name="post" required={false} />
+                        <label htmlFor='post'>Должность</label>
+                        <input type="text" id='post' defaultValue={data.defaultData.post ? data.defaultData.post : ''} name="post" required={false} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='city_of_residence'>Город прописки</label>
-                        <select id='city_of_residence' name="city_of_residence" required={true}>
+                        <label htmlFor='city_of_residence'>Город прописки</label>
+                        <select id='city_of_residence' name="city_of_residence" defaultValue={data.defaultData.city_of_residence ? data.defaultData.city_of_residence : ''} required={true}>
                             <option value=''>Выберите город</option>
-                            <option value='Миинск'>Минск</option>
+                            <option value='Минск'>Минск</option>
                             <option value='Гродно'>Гродно</option>
                             <option value='Брест'>Брест</option>
                             <option value='Витебск'>Витебск</option>
@@ -75,12 +110,12 @@ const FormModalWindow = ({ callback, title, defualtValue }) => {
                         </select>
                     </div>
                     <div className="inp-overlay">
-                        <label for='address_of_residence"'>Адрес прописки</label>
-                        <input type="text" id='address_of_residence"' name="address_of_residence" required={true} />
+                        <label htmlFor='address_of_residence'>Адрес прописки</label>
+                        <input type="text" id='address_of_residence' defaultValue={data.defaultData.address_of_residence ? data.defaultData.address_of_residence : ''} name="address_of_residence" required={true} />
                     </div>
                     <div className="inp-overlay">
-                        <label for='marital_status'>Семейное положение</label>
-                        <select id='marital_status' name="marital_status" required={true}>
+                        <label htmlFor='marital_status'>Семейное положение</label>
+                        <select id='marital_status' name="marital_status" defaultValue={data.defaultData.marital_status ? data.defaultData.marital_status : ''} required={true}>
                             <option value=''>Выберите нужное</option>
                             <option value='Женат'>Женат</option>
                             <option value='Замужем'>Замужем</option>
@@ -89,28 +124,32 @@ const FormModalWindow = ({ callback, title, defualtValue }) => {
                         </select>
                     </div>
                     <div className="inp-overlay">
-                        <label className="label" for='citizenship'>Гражданство</label>
-                        <select id='citizenship' name="citizenship" required={true}>
+                        <label className="label" htmlFor='citizenship'>Гражданство</label>
+                        <select id='citizenship' name="citizenship" required={true} defaultValue={data.defaultData.citizenship ? data.defaultData.citizenship : ''}>
                             <option value=''>Выберите гражданство</option>
                             <option value='РБ'>РБ</option>
                             <option value='РФ'>РФ</option>
                         </select>
                     </div>
                     <div className="inp-overlay">
-                        <label for='monthly_cash_income'>Ежемесячный доход</label>
-                        <input id='monthly_cash_income' type="text" name="monthly_cash_income" placeholder="BYN" required={false} />
+                        <label htmlFor='monthly_cash_income'>Ежемесячный доход</label>
+                        <input id='monthly_cash_income' type="text" defaultValue={data.defaultData.monthly_cash_income ? data.defaultData.monthly_cash_income : ''} name="monthly_cash_income" placeholder="Br" pattern="^\d+(\.\d{1,2})?" required={false} />
                     </div>
-                    <div className="inp-overlay">
-                        <label for='liable'>Военнобязанный</label>
-                        <input id='liable' type="checkbox" name="liable" required={false} />
+                    <div className="inp-overlay-spec">
+                        <div>
+                            <label htmlFor='liable'>Военнобязанный</label>
+                            <input id='liable' type="checkbox" defaultChecked={data.defaultData.liable} name="liable" required={false} />
+                        </div>
                     </div>
-                    <div className="inp-overlay">
-                        <label>Пенсионер</label>
-                        <input id='retiree' type="checkbox" name="retiree" required={true} />
+                    <div className="inp-overlay-spec">
+                        <div>
+                            <label>Пенсионер</label>
+                            <input id='retiree' type="checkbox" defaultChecked={data.defaultData.retiree} name="retiree" required={false} />
+                        </div>
                     </div>
                 </div>
                 <div className="submit-btn">
-                    <button>Подтвердить</button>
+                    <button type="submit">Подтвердить</button>
                 </div>
             </form>
         </div>

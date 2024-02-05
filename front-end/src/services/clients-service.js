@@ -9,8 +9,9 @@ export const newClient = createAsyncThunk('clients/post', async (formData, thunk
             body: JSON.stringify({ data: { ...formData } })
         }
         const response = await fetch(`${url}/post`, options);
+        const status = response.status;
         const body = await response.json();
-        return { data: body.data }
+        return { data: body.data, status }
     } catch (error) {
         return thunkAPI.rejectWithValue({ error: error.message })
     }
@@ -18,14 +19,16 @@ export const newClient = createAsyncThunk('clients/post', async (formData, thunk
 
 export const updateClient = createAsyncThunk('clients/put', async (formData, thunkAPI) => {
     try {
+        const { id, ...rawData } = formData;
         const options = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ data: { ...formData } })
+            body: JSON.stringify({ id: formData.id, data: rawData })
         }
         const response = await fetch(`${url}/put`, options);
+        const status = response.status;
         const body = await response.json();
-        return { data: body.data }
+        return { data: body.data, status }
     } catch (error) {
         return thunkAPI.rejectWithValue({ error: error.message })
     }
@@ -33,14 +36,14 @@ export const updateClient = createAsyncThunk('clients/put', async (formData, thu
 
 export const getClients = createAsyncThunk('clients/get', async (pagination, thunkAPI) => {
     try {
-        console.log(url);
         const options = {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         }
         const response = await fetch(`${url}/get?page=${pagination.page}&limit=${pagination.limit}`, options);
+        const status = response.status;
         const body = await response.json();
-        return { data: body.data }
+        return { data: body.data, status }
     } catch (error) {
         return thunkAPI.rejectWithValue({ error: error.message })
     }
@@ -59,8 +62,9 @@ export const deleteClients = createAsyncThunk('clients/delete', async (ids, thun
             })
         }
         const response = await fetch(`${url}/delete`, options);
+        const status = response.status;
         const body = await response.json();
-        return { data: body.data }
+        return { data: body.data, status }
     } catch (error) {
         return thunkAPI.rejectWithValue({ error: error.message })
     }

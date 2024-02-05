@@ -15,6 +15,7 @@ export const clientsSlice = createSlice({
         added: {},
         status: null,
         error: null,
+        badReq: null,
         loading: false,
     },
     reducers: {
@@ -30,9 +31,13 @@ export const clientsSlice = createSlice({
             })
             .addCase(getClients.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients = action.payload.data.clients;
-                state.pagination = action.payload.data.pagination;
                 state.status = action.payload.status;
+                if (action.payload.status === 400) {
+                    state.error = action.payload.data;
+                } else {
+                    state.clients = action.payload.data.clients;
+                    state.pagination = action.payload.data.pagination;
+                }
             })
             .addCase(getClients.rejected, (state, action) => {
                 state.loading = false;
@@ -44,7 +49,10 @@ export const clientsSlice = createSlice({
             })
             .addCase(newClient.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients.added = action.payload.data.new_client;
+                state.status = action.payload.status;
+                if (action.payload.status === 400) {
+                    state.error = action.payload.data;
+                } 
             })
             .addCase(newClient.rejected, (state, action) => {
                 state.loading = false;
@@ -56,7 +64,10 @@ export const clientsSlice = createSlice({
             })
             .addCase(deleteClients.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients.deleted = action.payload.data.deleted_clients;
+                state.status = action.payload.status;
+                if (action.payload.status === 400) {
+                    state.error = action.payload.data;
+                } 
             })
             .addCase(deleteClients.rejected, (state, action) => {
                 state.loading = false;
@@ -68,7 +79,10 @@ export const clientsSlice = createSlice({
             })
             .addCase(updateClient.fulfilled, (state, action) => {
                 state.loading = false;
-                state.clients.updated = action.payload.data.updated_client;
+                state.status = action.payload.status;
+                if (action.payload.status === 400) {
+                    state.error = action.payload.data;
+                } 
             })
             .addCase(updateClient.rejected, (state, action) => {
                 state.loading = false;

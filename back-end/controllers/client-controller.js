@@ -43,8 +43,8 @@ class ClientController {
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Некорректные данные', errors.array()))
             }
-            const { data } = req.body;
-            const updatedClient = await clientSercvice.put(data);
+            const { data, id} = req.body;
+            const updatedClient = await clientSercvice.put(data, id);
             return res.json({
                 data: {
                     updated_client: {
@@ -59,6 +59,10 @@ class ClientController {
 
     async delete(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Некорректные данные', errors.array()))
+            }
             const { data } = req.body;
             const deletedClients = await clientSercvice.delete(data.ids);
             return res.json({

@@ -12,7 +12,7 @@ router.post('/post',
     body('data.gender').not().isEmpty().withMessage('Пол не должен быть пустым').isIn(['Мужчина', 'Женщина']).withMessage('Пол должен быть "Мужчина" или "Женщина"'),
     body('data.city_of_actual_residence').not().isEmpty().withMessage('Город проживания не должен быть пустым').isIn(['Минск', 'Гродно', 'Брест', 'Витебск', 'Гомель']).withMessage('Такого города нет в списке'),
     body('data.address_of_the_actual_residence').not().isEmpty().withMessage('Адрес проживания не должен быть пустым'),
-    body('data.home_phone').optional({ checkFalsy: true }).isLength({ min: 7, max: 7 }).withMessage('Неверная дом. телефон'),
+    body('data.home_phone').optional({ checkFalsy: true }).matches(/^\d{7}$/).withMessage('Неверная дом. телефон'),
     body('data.mob_phone').optional({ checkFalsy: true }).isLength({ min: 13, max: 13 }).withMessage('Неверный номер').isMobilePhone('be-BY').withMessage('Должен быть действительным номером мобильного телефона в Беларуси'),
     body('data.email').optional({ checkFalsy: true }).isEmail().withMessage('Почта должны быть валидной'),
     body('data.city_of_residence').not().isEmpty().withMessage('Город прописки не должен быть пустым').isIn(['Минск', 'Гродно', 'Брест', 'Витебск', 'Гомель']).withMessage('Такого города нет в списке'),
@@ -21,11 +21,9 @@ router.post('/post',
     body('data.citizenship').not().isEmpty().withMessage('Гражданство не должно быть пустым').isIn(['РБ', 'РФ']).withMessage('Такого гражданства в списке нет'),
     body('data.retiree').not().isEmpty().withMessage('Статус пенсионер не должен быть пустым'),
     body('data.monthly_cash_income').optional({ checkFalsy: true }).isCurrency({
-        symbol: 'Br',
-        require_symbol: true,
         decimal_separator: ',',
         thousands_separator: '.'
-    }).withMessage('Должна быть валдиная строка с символом Br в конце'),
+    }).withMessage('Должна быть валидная строка'),
     body('data.liable').not().isEmpty().withMessage('Поле военнообязаный не должно быть пустым').isBoolean().withMessage('Поле военнообязанный должно быть "true" / "false"'),
     body('data.retiree').not().isEmpty().withMessage('Поле пенсионер не должно быть пустым').isBoolean().withMessage('Поле пенсионер должно быть "true" / "false"'),
     clientController.post
@@ -38,7 +36,7 @@ router.put('/put',
     body('data.gender').not().isEmpty().withMessage('Пол не должен быть пустым').isIn(['Мужчина', 'Женщина']).withMessage('Пол должен быть "Мужчина" или "Женщина"'),
     body('data.city_of_actual_residence').not().isEmpty().withMessage('Город проживания не должен быть пустым').isIn(['Минск', 'Гродно', 'Брест', 'Витебск', 'Гомель']).withMessage('Такого города нет в списке'),
     body('data.address_of_the_actual_residence').not().isEmpty().withMessage('Адрес проживания не должен быть пустым'),
-    body('data.home_phone').optional({ checkFalsy: true }).isLength({ min: 7, max: 7 }).withMessage('Неверная дом. телефон'),
+    body('data.home_phone').optional({ checkFalsy: true }).matches(/^\d{7}$/).withMessage('Неверная дом. телефон'),
     body('data.mob_phone').optional({ checkFalsy: true }).isLength({ min: 13, max: 13 }).withMessage('Неверный номер').isMobilePhone('be-BY').withMessage('Должен быть действительным номером мобильного телефона в Беларуси'),
     body('data.email').optional({ checkFalsy: true }).isEmail().withMessage('Почта должны быть валидной'),
     body('data.city_of_residence').not().isEmpty().withMessage('Город прописки не должен быть пустым').isIn(['Минск', 'Гродно', 'Брест', 'Витебск', 'Гомель']).withMessage('Такого города нет в списке'),
@@ -47,14 +45,22 @@ router.put('/put',
     body('data.citizenship').not().isEmpty().withMessage('Гражданство не должно быть пустым').isIn(['РБ', 'РФ']).withMessage('Такого гражданства в списке нет'),
     body('data.retiree').not().isEmpty().withMessage('Статус пенсионер не должен быть пустым'),
     body('data.monthly_cash_income').optional({ checkFalsy: true }).isCurrency({
-        symbol: 'Br',
-        require_symbol: true,
         decimal_separator: ',',
         thousands_separator: '.'
-    }).withMessage('Должна быть валдиная строка с символом Br в конце'),
+    }).withMessage('Должна быть валидная'),
     body('data.liable').not().isEmpty().withMessage('Поле военнообязаный не должно быть пустым').isBoolean().withMessage('Поле военнообязанный должно быть "true" / "false"'),
     body('data.retiree').not().isEmpty().withMessage('Поле пенсионер не должно быть пустым').isBoolean().withMessage('Поле пенсионер должно быть "true" / "false"'),
     clientController.put)
-router.delete('/delete', clientController.delete)
+router.delete('/delete',
+    body('data.ids').custom((value) => {
+        if (!Array.isArray(value)) {
+            throw new Error('Поле должно быть массивом');
+        } else if (value.length < 1) {
+            throw new Error('Массив не должен быть пустым');
+        }
+        return true;
+    }),
+    clientController.delete
+)
 
 module.exports = router;
