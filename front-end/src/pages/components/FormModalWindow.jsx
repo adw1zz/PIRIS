@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { newClient, updateClient, getClients } from '../../services/clients-service';
+import { CLIENT_REGEX_INPUT_PETTERN, CLIENT_REGEX_INPUT_PETTERN_TITLE } from "../../consts/client/client-regex";
 
 const FormModalWindow = ({ show, data }) => {
 
@@ -41,15 +42,15 @@ const FormModalWindow = ({ show, data }) => {
                 <div className="form-inputs">
                     <div className="inp-overlay">
                         <label htmlFor='name'>Имя</label>
-                        <input id="name" type="text" defaultValue={data.defaultData.name ? data.defaultData.name : ''} name="name" required={true} />
+                        <input id="name" type="text" defaultValue={data.defaultData.name ? data.defaultData.name : ''} name="name" required={true} pattern={CLIENT_REGEX_INPUT_PETTERN.FCs.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.FCs}/>
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='surname'>Фамилия</label>
-                        <input id='surname' defaultValue={data.defaultData.surname ? data.defaultData.surname : ''} type="text" name="surname" required={true} />
+                        <input id='surname' defaultValue={data.defaultData.surname ? data.defaultData.surname : ''} type="text" name="surname" required={true} pattern={CLIENT_REGEX_INPUT_PETTERN.FCs.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.FCs}/>
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='patronymic'>Отчество</label>
-                        <input id='patronymic' defaultValue={data.defaultData.patronymic ? data.defaultData.patronymic : ''} type="text" name="patronymic" required={true} />
+                        <input id='patronymic' defaultValue={data.defaultData.patronymic ? data.defaultData.patronymic : ''} type="text" name="patronymic" required={true} pattern={CLIENT_REGEX_INPUT_PETTERN.FCs.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.FCs}/>
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='birthdate'>Дата рождения</label>
@@ -76,15 +77,15 @@ const FormModalWindow = ({ show, data }) => {
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='address_of_the_actual_residence'>Адрес фактического проживания</label>
-                        <input type="text" id='address_of_the_actual_residence' name="address_of_the_actual_residence" defaultValue={data.defaultData.address_of_the_actual_residence ? data.defaultData.address_of_the_actual_residence : ''} required={true} />
+                        <input type="text" id='address_of_the_actual_residence' name="address_of_the_actual_residence" defaultValue={data.defaultData.address_of_the_actual_residence ? data.defaultData.address_of_the_actual_residence : ''} required={true} pattern={CLIENT_REGEX_INPUT_PETTERN.text_address.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.text_address}/>
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='home_phone'>Телефон дом.</label>
-                        <input type="text" id='home_phone' name="home_phone" defaultValue={data.defaultData.home_phone ? data.defaultData.home_phone : ''} required={false} pattern="\d{7}" />
+                        <input type="text" id='home_phone' name="home_phone" defaultValue={data.defaultData.home_phone ? data.defaultData.home_phone : ''} required={false} pattern={CLIENT_REGEX_INPUT_PETTERN.home_phone.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.home_phone}/>
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='mob_phone'>Телефон моб.</label>
-                        <input type="text" id='mob_phone' name="mob_phone" defaultValue={data.defaultData.mob_phone ? data.defaultData.mob_phone : '+375'} required={false} pattern="\+375\d{9}" />
+                        <input type="text" id='mob_phone' name="mob_phone" defaultValue={data.defaultData.mob_phone ? data.defaultData.mob_phone : '+375'} required={false} pattern={CLIENT_REGEX_INPUT_PETTERN.mob_phone.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.mob_phone}/>
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='email'>Email</label>
@@ -92,11 +93,11 @@ const FormModalWindow = ({ show, data }) => {
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='workplace'>Место работы</label>
-                        <input type="text" id='workplace' defaultValue={data.defaultData.workplace ? data.defaultData.workplace : ''} name="workplace" required={false} />
+                        <input type="text" id='workplace' defaultValue={data.defaultData.workplace ? data.defaultData.workplace : ''} name="workplace" pattern={CLIENT_REGEX_INPUT_PETTERN.job.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.job} required={false} />
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='post'>Должность</label>
-                        <input type="text" id='post' defaultValue={data.defaultData.post ? data.defaultData.post : ''} name="post" required={false} />
+                        <input type="text" id='post' defaultValue={data.defaultData.post ? data.defaultData.post : ''} name="post" pattern={CLIENT_REGEX_INPUT_PETTERN.job.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.job} required={false} />
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='city_of_residence'>Город прописки</label>
@@ -111,7 +112,7 @@ const FormModalWindow = ({ show, data }) => {
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='address_of_residence'>Адрес прописки</label>
-                        <input type="text" id='address_of_residence' defaultValue={data.defaultData.address_of_residence ? data.defaultData.address_of_residence : ''} name="address_of_residence" required={true} />
+                        <input type="text" id='address_of_residence' defaultValue={data.defaultData.address_of_residence ? data.defaultData.address_of_residence : ''} pattern={CLIENT_REGEX_INPUT_PETTERN.text_address.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.text_address} name="address_of_residence" required={true} />
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='marital_status'>Семейное положение</label>
@@ -133,7 +134,7 @@ const FormModalWindow = ({ show, data }) => {
                     </div>
                     <div className="inp-overlay">
                         <label htmlFor='monthly_cash_income'>Ежемесячный доход</label>
-                        <input id='monthly_cash_income' type="text" defaultValue={data.defaultData.monthly_cash_income ? data.defaultData.monthly_cash_income : ''} name="monthly_cash_income" placeholder="Br" pattern="^\d+(\.\d{1,2})?" required={false} />
+                        <input id='monthly_cash_income' type="text" defaultValue={data.defaultData.monthly_cash_income ? data.defaultData.monthly_cash_income : ''} name="monthly_cash_income" placeholder="BYN" pattern={CLIENT_REGEX_INPUT_PETTERN.money.source} title={CLIENT_REGEX_INPUT_PETTERN_TITLE.money} required={false} />
                     </div>
                     <div className="inp-overlay-spec">
                         <div>
