@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { newClient, updateClient, getClients } from '../../services/clients-service';
 import { CLIENT_REGEX_INPUT_PETTERN, CLIENT_REGEX_INPUT_PETTERN_TITLE } from "../../consts/client/client-regex";
 
-const FormModalWindow = ({ show, data }) => {
+const FormModalWindow = ({ show, data, modif }) => {
 
     const dispatch = useDispatch();
-    const pagination = useSelector(state => state.clientsData.pagination);
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -30,8 +29,8 @@ const FormModalWindow = ({ show, data }) => {
         formValue['liable'] = e.target['liable'].checked;
         formValue['retiree'] = e.target['retiree'].checked;
         data.title === 'Редактирование' ? dispatch(updateClient({...formValue, id: data.defaultData.id})) : dispatch(newClient(formValue));
-        dispatch(getClients(pagination))
         show(false);
+        modif(true);
     }
 
     return (
@@ -59,9 +58,9 @@ const FormModalWindow = ({ show, data }) => {
                     <div className="inp-overlay-spec">
                         <div>
                             <label htmlFor="male">Муж.</label>
-                            <input id='male' defaultChecked={data.defaultData.gender === 'Мужчина'} name="gender" value={'Мужчина'} type="radio" />
+                            <input id='male' defaultChecked={data.defaultData.gender === 'Мужчина'} name="gender" value={'Мужчина'} type="radio" required={true}/>
                             <label htmlFor="female">Жен.</label>
-                            <input id='female' defaultChecked={data.defaultData.gender === 'Женщина'} name="gender" value={'Женшщина'} type="radio" />
+                            <input id='female' defaultChecked={data.defaultData.gender === 'Женщина'} name="gender" value={'Женшщина'} type="radio" required={true} />
                         </div>
                     </div>
                     <div className="inp-overlay">

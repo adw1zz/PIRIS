@@ -20,14 +20,15 @@ const Clients = () => {
     const [toDelete, setToDelete] = useState([]);
     const [showErr, toShowErr] = useState(false);
     const [showEditModal, toShowEditModal] = useState(false);
+    const [modified, setModified] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
         const handleKeys = (event) => {
             if (event.key === 'Delete' && toDelete.length > 0) {
-                dispatch(deleteClients(toDelete))
-                dispatch(getClients(pagination))
+                dispatch(deleteClients(toDelete));
                 setToDelete([]);
+                setModified(true);
             } else if (event.key === 'Insert') {
                 setDataForModalWindow({ title: 'Новый клиент', defaultData: {} })
                 toShowEditModal(true);
@@ -39,6 +40,13 @@ const Clients = () => {
             window.removeEventListener('keyup', handleKeys);
         };
     }, [])
+
+    useEffect(() => {
+        if (modified) {
+            dispatch(getClients(pagination));
+            setModified(false);
+        }
+    }, [modified])
 
     useEffect(() => {
         if (status === 400) {
@@ -98,7 +106,7 @@ const Clients = () => {
                 : <></>
             }
             {showEditModal
-                ? <FormModalWindow show={toShowEditModal} data={dataForModalWindow} />
+                ? <FormModalWindow show={toShowEditModal} data={dataForModalWindow} modif={setModified}/>
                 : <></>
             }
             <div className="header">
