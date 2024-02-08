@@ -57,9 +57,9 @@ router.put('/put',
 router.delete('/delete',
     body('data.ids').custom((value) => {
         if (!Array.isArray(value)) {
-            throw new Error('Поле должно быть массивом');
+            throw new Error(CLIENT_VALIDATION_ERR_MSG.type + 'array');
         } else if (value.length < 1) {
-            throw new Error('Массив не должен быть пустым');
+            throw new Error(CLIENT_VALIDATION_ERR_MSG.empty);
         }
         return true;
     }),

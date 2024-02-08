@@ -6,21 +6,21 @@ const ClientSchema = new Schema({
         type: String, required: true, validate: {
             validator: (v) => {
                 return CLIENT_REGEX.FCs.test(v);
-            }, message: props => `${props.value} invalid string`
+            }, message: props => `${props.value} invalid value`
         }
     },
     surname: {
         type: String, required: true, validate: {
             validator: (v) => {
                 return CLIENT_REGEX.FCs.test(v);
-            }, message: props => `${props.value} invalid string`
+            }, message: props => `${props.value} invalid value`
         }
     },
     patronymic: {
         type: String, required: true, validate: {
             validator: (v) => {
                 return CLIENT_REGEX.FCs.test(v);
-            }, message: props => `${props.value} invalid string`
+            }, message: props => `${props.value} invalid value`
         }
     },
     birthdate: { type: Date, required: true },
@@ -31,16 +31,16 @@ const ClientSchema = new Schema({
             validator: (v) => {
                 return CLIENT_REGEX.text_address.test(v);
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         }
     },
     home_phone: {
-        type: String, required: false, validate:
+        type: String, required: false, default: '', validate:
         {
             validator: (v) => {
                 return CLIENT_REGEX.home_phone.test(v) || v === '';
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         },
     },
     mob_phone: {
@@ -48,7 +48,7 @@ const ClientSchema = new Schema({
             validator: (v) => {
                 return CLIENT_REGEX.mob_phone.test(v) || v === '';
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         },
         unique: true,
         sparse: true,
@@ -59,7 +59,7 @@ const ClientSchema = new Schema({
             validator: (v) => {
                 return CLIENT_REGEX.job.test(v) || v === ''
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         }
     },
     post: {
@@ -67,7 +67,7 @@ const ClientSchema = new Schema({
             validator: (v) => {
                 return CLIENT_REGEX.job.test(v) || v === ''
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         }
     },
     city_of_residence: { type: String, enam: CLIENT_ENUMS.cities, required: true },
@@ -76,7 +76,7 @@ const ClientSchema = new Schema({
             validator: (v) => {
                 return CLIENT_REGEX.text_address.test(v);
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         }
     },
     marital_status: { type: String, enam: CLIENT_ENUMS.marital_status, required: true },
@@ -87,7 +87,7 @@ const ClientSchema = new Schema({
             validator: (v) => {
                 return CLIENT_REGEX.money.test(v) || v === '';
             },
-            message: props => `${props.value} invalid string`
+            message: props => `${props.value} invalid value`
         },
         default: ''
     },

@@ -95,15 +95,15 @@ const Clients = () => {
 
     const nextPage = (e) => {
         if (pagination.page < totalPageCount) {
-            dispatch(updatePagination({ ...pagination, page: pagination.page1 + 1 }))
-            dispatch(getClients(pagination));
+            dispatch(updatePagination({ ...pagination, page: Number(pagination.page) + 1 }))
+            setModified(true);
         }
     }
 
     const prevPage = (e) => {
         if (pagination.page > 1) {
-            dispatch(updatePagination({ ...pagination, page: pagination.page1 - 1 }))
-            dispatch(getClients(pagination));
+            dispatch(updatePagination({ ...pagination, page: Number(pagination.page) - 1 }))
+            setModified(true);
         }
     }
 
@@ -133,7 +133,7 @@ const Clients = () => {
                             </div>
                             {clients?.map((client, index) => {
                                 return <div className="client" id={client.id} onClick={selectHandle} key={client.id} onDoubleClick={() => openEditFormModal('Редактирование', client)}>
-                                    {Object.keys(client).map((key, index) => {
+                                    {Object.keys(ClientFieldsMap).map((key, index) => {
                                         if (key !== 'id') {
                                             if (typeof client[key] === 'boolean') {
                                                 return <div key={index} >{client[key] ? 'ДА' : 'НЕТ'}</div>
