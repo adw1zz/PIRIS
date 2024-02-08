@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { newClient, updateClient, getClients } from '../../services/clients-service';
-import { CLIENT_REGEX_INPUT_PETTERN, CLIENT_REGEX_INPUT_PETTERN_TITLE } from "../../consts/client/client-regex";
+import { CLIENT_REGEX_INPUT_PETTERN, CLIENT_REGEX_INPUT_PETTERN_TITLE } from "../../consts/client";
 
 const FormModalWindow = ({ show, data, modif }) => {
 

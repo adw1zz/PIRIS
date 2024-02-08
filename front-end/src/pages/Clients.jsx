@@ -4,7 +4,7 @@ import "../styles/loaders.scss"
 import { getClients, deleteClients } from '../services/clients-service';
 import { useDispatch, useSelector } from "react-redux";
 import { updatePagination, updateToDeleteList } from "../store/reducers/clients-reducer";
-import { ClientFieldsMap } from "../consts/client/client-scheme-fields-map";
+import { ClientFieldsMap } from "../consts/client";
 import FormModalWindow from "./components/FormModalWindow";
 import ErrorModalWindow from "../reused/ErrorModalWindow";
 
