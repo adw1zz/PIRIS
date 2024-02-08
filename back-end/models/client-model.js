@@ -42,7 +42,6 @@ const ClientSchema = new Schema({
             },
             message: props => `${props.value} must be 7 num symbols`
         },
-        default: '',
     },
     mob_phone: {
         type: String, required: false, validate: {
@@ -51,11 +50,10 @@ const ClientSchema = new Schema({
             },
             message: props => `${props.value} must be 13 symbols and starts with +375`
         },
-        default: '',
         unique: true,
         sparse: true,
     },
-    email: { type: String, required: false, default: '', unique: true, sparse: true },
+    email: { type: String, required: false, unique: true, sparse: true },
     workplace: {
         type: String, required: false, default: '', validate: {
             validator: (v) => {

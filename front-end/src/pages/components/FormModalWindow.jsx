@@ -24,6 +24,9 @@ const FormModalWindow = ({ show, data, modif }) => {
         const formData = new FormData(e.target);
         const formValue = {};
         for (let pair of formData.entries()) {
+            if ((pair[0] === 'email' && !pair[1]) || (pair[0] === 'mob_phone' && !pair[1])) {
+                continue;
+            }
             formValue[pair[0]] = pair[1]
         }
         formValue['liable'] = e.target['liable'].checked;

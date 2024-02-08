@@ -3,13 +3,14 @@ import "../styles/clients-page.scss";
 import "../styles/loaders.scss"
 import { getClients, deleteClients } from '../services/clients-service';
 import { useDispatch, useSelector } from "react-redux";
-import { updatePagination } from "../store/reducers/clients-reducer";
+import { updatePagination, updateToDeleteList } from "../store/reducers/clients-reducer";
 import { ClientFieldsMap } from "../consts/client/client-scheme-fields-map";
 import FormModalWindow from "./components/FormModalWindow";
 import ErrorModalWindow from "../reused/ErrorModalWindow";
 
 const Clients = () => {
 
+    const dispatch = useDispatch();
     const status = useSelector(state => state.clientsData.status);
     const clients = useSelector(state => state.clientsData.clients);
     const pagination = useSelector(state => state.clientsData.pagination);
@@ -17,18 +18,16 @@ const Clients = () => {
     const [totalPageCount, setTotalPageCount] = useState(1);
     const [dataForModalWindow, setDataForModalWindow] = useState(null);
 
-    const [toDelete, setToDelete] = useState([]);
+    const toDelete = useSelector(state => state.clientsData.toDelete);
+    const [del, setDel] = useState(false);
     const [showErr, toShowErr] = useState(false);
     const [showEditModal, toShowEditModal] = useState(false);
     const [modified, setModified] = useState(false);
 
-    const dispatch = useDispatch();
     useEffect(() => {
         const handleKeys = (event) => {
-            if (event.key === 'Delete' && toDelete.length > 0) {
-                dispatch(deleteClients(toDelete));
-                setToDelete([]);
-                setModified(true);
+            if (event.key === 'Delete') {
+                setDel(true);
             } else if (event.key === 'Insert') {
                 setDataForModalWindow({ title: 'Новый клиент', defaultData: {} })
                 toShowEditModal(true);
@@ -40,6 +39,15 @@ const Clients = () => {
             window.removeEventListener('keyup', handleKeys);
         };
     }, [])
+
+    useEffect(() => {
+        if (del && toDelete.length > 0) {
+            dispatch(deleteClients(toDelete));
+            dispatch(updateToDeleteList([]));
+            setModified(true);
+            setDel(false);
+        }
+    }, [del])
 
     useEffect(() => {
         if (modified) {
@@ -66,11 +74,11 @@ const Clients = () => {
         if (exists === -1) {
             clientBlock.style = 'background-color: #969696fd;';
             current.push(clientBlock.id);
-            setToDelete(current);
+            dispatch(updateToDeleteList(current));
         } else {
             clientBlock.style = 'background-color: none';
             current.splice(exists, 1);
-            setToDelete(current);
+            dispatch(updateToDeleteList(current));
         }
     }
 
@@ -106,7 +114,7 @@ const Clients = () => {
                 : <></>
             }
             {showEditModal
-                ? <FormModalWindow show={toShowEditModal} data={dataForModalWindow} modif={setModified}/>
+                ? <FormModalWindow show={toShowEditModal} data={dataForModalWindow} modif={setModified} />
                 : <></>
             }
             <div className="header">

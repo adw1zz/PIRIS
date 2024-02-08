@@ -4,6 +4,7 @@ import { newClient, getClients, deleteClients, updateClient } from '../../servic
 export const clientsSlice = createSlice({
     name: 'clientsData',
     initialState: {
+        toDelete: [],
         pagination: {
             limit: 10,
             page: 1,
@@ -21,6 +22,9 @@ export const clientsSlice = createSlice({
     reducers: {
         updatePagination: (state, action) => {
             state.pagination = action.payload;
+        },
+        updateToDeleteList: (state, action) => {
+            state.toDelete = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -91,4 +95,4 @@ export const clientsSlice = createSlice({
     }
 })
 
-export const { updatePagination } = clientsSlice.actions;
+export const { updatePagination, updateToDeleteList } = clientsSlice.actions;
