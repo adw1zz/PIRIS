@@ -16,6 +16,7 @@ class ClientService {
         clientsArrayObject.pagination.total_count = await clientModel.countDocuments();
         const clients = await clientModel.find().skip((page - 1) * limit).limit(limit);
         clientsArrayObject.clients = getDTOs(ClientDTO, clients);
+        clientsArrayObject.clients.sort((a, b) => a.surname.localeCompare(b.surname));
         return clientsArrayObject;
     }
 
@@ -57,7 +58,7 @@ class ClientService {
                 throw ApiError.BadRequest(`This mobile phone exists in database`, [{ mob_phone: data.mob_phone }]);
             }
         }
-        const updatedClient = await clientModel.findByIdAndUpdate(client_id, data.new_client, { new: true });
+        const updatedClient = await clientModel.findByIdAndUpdate(client_id, {...data}, { new: true });
         return new ClientDTO(updatedClient);
     }
 
