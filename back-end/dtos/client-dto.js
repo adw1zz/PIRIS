@@ -1,10 +1,14 @@
 module.exports = class ClientDto {
-    id;
-    surname;
-    name;
+    id
+    surname
+    name
     patronymic
     birthdate
     gender
+    passport_number
+    issued_by
+    issue_date
+    passport_id_number
     city_of_actual_residence
     address_of_the_actual_residence
     home_phone
@@ -16,6 +20,7 @@ module.exports = class ClientDto {
     address_of_residence
     marital_status
     citizenship
+    disability
     retiree
     monthly_cash_income
     liable
@@ -42,5 +47,10 @@ module.exports = class ClientDto {
         this.retiree = model.retiree;
         this.monthly_cash_income = model.monthly_cash_income;
         this.liable = model.liable;
+        this.disability = model.disability;
+        this.passport_number = model.passport_number;
+        this.issued_by = model.issued_by;
+        this.issue_date = model.issue_date;
+        this.passport_id_number = model.passport_id_number;
     }
 }

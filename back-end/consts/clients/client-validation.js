@@ -3,6 +3,7 @@ const CLIENT_ENUMS = {
     cities: ['Минск', 'Гродно', 'Брест', 'Витебск', 'Гомель'],
     marital_status: ['Женат', 'Замужем', 'Не женат', 'Не замужем'],
     citizenship: ['РБ', 'РФ'],
+    disability: ['1-ая степень', '2-ая степень', '3-я степень', '4-ая степень', 'Нет']
 }
 
 const CLIENT_REGEX = {
@@ -12,9 +13,14 @@ const CLIENT_REGEX = {
     mob_phone: /^\+375\d{9}$/,
     money: /^\d{1,3}(\.\d{3})*,\d{2}$/,
     job: /^[а-яА-ЯёЁa-zA-Z\s\.\-\"']+$/,
+    passport_number: /^[A-Z]{2}\d{7}$/,
+    passport_id_number: /^[A-Z0-9]{14}$/
 }
 
 const CLIENT_VALIDATION_ERR_MSG = {
+    passport_number: "Строка должна начинаться на два сим. 'en' верхнего регистра, далее 7 цифр",
+    passport_id_number: "Строка должна быть длинной 14 символов и содержать тольцо цифры и буквы 'en' алфавита в верхнем регистре",
+    issue_date: "Невалидная дата выдачи паспорта",
     type: 'Значение не является ',
     empty: 'Значение не должно быть пустым',
     name: "Имя должно быть написано кириллицей без каких-либо спец. симоволов",
@@ -34,6 +40,7 @@ const CLIENT_VALIDATION_ERR_MSG = {
     retiree: "Поле должно быть 'true' или 'false'",
     monthly_cash_income: "Не валидное значение денежной суммы",
     liable: "Поле должно быть 'true' или 'false'",
+    disability: `Такого значения нет в списке ${CLIENT_ENUMS.disability}`
 }
 
 module.exports = {CLIENT_VALIDATION_ERR_MSG, CLIENT_ENUMS, CLIENT_REGEX};

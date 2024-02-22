@@ -25,6 +25,24 @@ const ClientSchema = new Schema({
     },
     birthdate: { type: Date, required: true },
     gender: { type: String, enam: CLIENT_ENUMS.gender, required: true },
+    passport_number: {
+        type: String, required: true, validate: {
+            validator: (v) => {
+                return CLIENT_REGEX.passport_number.test(v);
+            },
+            message: props => `${props.value} invalid value`
+        }
+    },
+    issued_by: { type: String, required: true },
+    issue_date: { type: Date, required: true },
+    passport_id_number: {
+        type: String, required: true, validate: {
+            validator: (v) => {
+                return CLIENT_REGEX.passport_id_number.test(v);
+            },
+            message: props => `${props.value} invalid value`
+        }
+    },
     city_of_actual_residence: { type: String, enam: CLIENT_ENUMS.cities, required: true },
     address_of_the_actual_residence: {
         type: String, required: true, validate: {
@@ -81,6 +99,7 @@ const ClientSchema = new Schema({
     },
     marital_status: { type: String, enam: CLIENT_ENUMS.marital_status, required: true },
     citizenship: { type: String, enam: CLIENT_ENUMS.citizenship, required: true },
+    disability: { type: String, enum: CLIENT_ENUMS.disability, required: true },
     retiree: { type: Boolean, required: true },
     monthly_cash_income: {
         type: String, required: false, validate: {

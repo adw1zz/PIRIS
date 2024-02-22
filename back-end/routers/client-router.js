@@ -27,7 +27,12 @@ router.post('/post',
         thousands_separator: '.'
     }).withMessage(CLIENT_VALIDATION_ERR_MSG.monthly_cash_income),
     body('data.liable').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isBoolean().withMessage(CLIENT_VALIDATION_ERR_MSG.liable),
+    body('data.disability').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isIn(CLIENT_ENUMS.disability).withMessage(CLIENT_VALIDATION_ERR_MSG.disability),
     body('data.retiree').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isBoolean().withMessage(CLIENT_VALIDATION_ERR_MSG.retiree),
+    body('data.passport_number').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).matches(CLIENT_REGEX.passport_number).withMessage(CLIENT_VALIDATION_ERR_MSG.passport_number),
+    body('data.issued_by').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty),
+    body('date.issue_date').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isDate().withMessage(CLIENT_VALIDATION_ERR_MSG.issue_date),
+    body('date.passport_id_number').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).matches(CLIENT_REGEX.passport_id_number).withMessage(CLIENT_VALIDATION_ERR_MSG.passport_id_number),
     clientController.post
 );
 router.put('/put',
@@ -52,7 +57,12 @@ router.put('/put',
         thousands_separator: '.'
     }).withMessage(CLIENT_VALIDATION_ERR_MSG.monthly_cash_income),
     body('data.liable').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isBoolean().withMessage(CLIENT_VALIDATION_ERR_MSG.liable),
+    body('data.disability').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isIn(CLIENT_ENUMS.disability).withMessage(CLIENT_VALIDATION_ERR_MSG.disability),
     body('data.retiree').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isBoolean().withMessage(CLIENT_VALIDATION_ERR_MSG.retiree),
+    body('data.passport_number').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).matches(CLIENT_REGEX.passport_number).withMessage(CLIENT_VALIDATION_ERR_MSG.passport_number),
+    body('data.issued_by').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty),
+    body('date.issue_date').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).isDate().withMessage(CLIENT_VALIDATION_ERR_MSG.issue_date),
+    body('date.passport_id_number').not().isEmpty().withMessage(CLIENT_VALIDATION_ERR_MSG.empty).matches(CLIENT_REGEX.passport_id_number).withMessage(CLIENT_VALIDATION_ERR_MSG.passport_id_number),
     clientController.put)
 router.delete('/delete',
     body('data.ids').custom((value) => {
