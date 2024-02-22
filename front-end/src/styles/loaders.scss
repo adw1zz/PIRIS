@@ -1,0 +1,30 @@
+.get-clients-loader {
+    height: 4.8px;
+    display: inline-block;
+    position: relative;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+
+    @keyframes animFw {
+        0% {
+            width: 0;
+        }
+
+        100% {
+            width: 100%;
+        }
+    }
+
+    &::after {
+        content: '';
+        box-sizing: border-box;
+        width: 0;
+        height: 4.8px;
+        background: rgb(87, 87, 87);
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: animFw 10s linear infinite;
+    }
+}
