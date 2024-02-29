@@ -26,7 +26,7 @@ const ClientSchema = new Schema({
     birthdate: { type: Date, required: true },
     gender: { type: String, enam: CLIENT_ENUMS.gender, required: true },
     passport_number: {
-        type: String, required: true, validate: {
+        type: String, required: true, unique: true, validate: {
             validator: (v) => {
                 return CLIENT_REGEX.passport_number.test(v);
             },
@@ -36,7 +36,7 @@ const ClientSchema = new Schema({
     issued_by: { type: String, required: true },
     issue_date: { type: Date, required: true },
     passport_id_number: {
-        type: String, required: true, validate: {
+        type: String, required: true, unique: true, validate: {
             validator: (v) => {
                 return CLIENT_REGEX.passport_id_number.test(v);
             },

@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('./db/mongodb-inst');
 const app = express();
+const migr = require('./migr/deposits');
 const PORT = process.env.PORT;
 const errorMiddleware = require('./middlewares/error-middleware');
 const clientRouter = require('./routers/client-router');
@@ -19,7 +20,8 @@ const start = async () => {
     try {
         mongoose.set('strictQuery', false);
         await mongoose.connect(process.env.DB_CONNECTION_URL);
-        app.listen(PORT, () => console.log(`Server started on ${PORT}`))
+        app.listen(PORT, () => console.log(`Server started on ${PORT}`));
+        //await migr();
     } catch (e) {
         console.log(e);
     }
