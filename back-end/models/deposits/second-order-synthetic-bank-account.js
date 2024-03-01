@@ -1,13 +1,19 @@
 const { Schema, model } = require('mongoose');
-
-const SUM_REGEX = /^\d{1,3}(\.\d{3})*,\d{2}$/;
+const { DEPOSIT_REGEX } = require('../../consts/deposit');
 
 const SecondOrderSyntheticBankAccountScheme = new Schema({
-    account_number: { type: String, required: true, unique: true }, //5 цифры (3 от первого порядка плюс 2 новые)
-    sum: { //общая от аналитики
+    account_number: {
+        type: String, required: true, unique: true, validate: {
+            validator: (v) => {
+                return DEPOSIT_REGEX.second_order_synthetic_bank_account_number.test(v);
+            },
+            message: props => `${props.value} invalid value`
+        },
+    },
+    sum: {
         type: String, required: true, validate: {
             validator: (v) => {
-                return SUM_REGEX.test(v);
+                return DEPOSIT_REGEX.money.test(v);
             },
             message: props => `${props.value} invalid value`
         },
@@ -15,9 +21,9 @@ const SecondOrderSyntheticBankAccountScheme = new Schema({
     },
     currency: { type: String, default: 'BYN', required: true },
     deposit_line: { type: Schema.Types.ObjectId, ref: "DopositLine", required: true },
-    activity: {type: String, default: 'актив.', required: true},
+    activity: { type: String, default: 'актив.', required: true },
     individual_analytical_accounts: [
-        { type: Schema.Types.ObjectId, ref: "IndividualAnalyticalAccount"},
+        { type: Schema.Types.ObjectId, ref: "IndividualAnalyticalAccount" },
     ]
 })
 

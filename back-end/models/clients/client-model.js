@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { CLIENT_REGEX, CLIENT_ENUMS } = require('../consts/clients');
+const { CLIENT_REGEX, CLIENT_ENUMS } = require('../../consts/clients');
 
 const ClientSchema = new Schema({
     name: {

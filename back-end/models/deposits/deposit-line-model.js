@@ -1,8 +1,8 @@
 const { Schema, model } = require('mongoose');
-
+const { DEPOSIT_REGEX } = require('../../consts/deposit');
 const getLastFourCharsOfHexTimestamp = () => Date.now().toString(16).slice(-6);
 const getDefaultEndDate = () => Date.now() + 2*365*24*60*60*1000;
-const SUM_REGEX = /^\d{1,3}(\.\d{3})*,\d{2}$/;
+
 
 const DepositLineScheme = new Schema({
     type: {type: String, enum: ["Безотзывной"], default: "Безотзывной", required: true},
@@ -14,7 +14,7 @@ const DepositLineScheme = new Schema({
     min_sum: {
         type: String, required: true, validate: {
             validator: (v) => {
-                return SUM_REGEX.test(v);
+                return DEPOSIT_REGEX.money.test(v);
             },
             message: props => `${props.value} invalid value`
         },
@@ -23,7 +23,7 @@ const DepositLineScheme = new Schema({
     max_sum: {
         type: String, required: true, validate: {
             validator: (v) => {
-                return SUM_REGEX.test(v);
+                return DEPOSIT_REGEX.money.test(v);
             },
             message: props => `${props.value} invalid value`
         },

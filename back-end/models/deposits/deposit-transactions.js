@@ -1,14 +1,12 @@
 const { Schema, model } = require('mongoose');
-
-const SUM_REGEX = /^\d{1,3}(\.\d{3})*,\d{2}$/;
-const IBAN = /^BY\d{2}ZEPT\d{4}[A-Z0-9]{16}$/;
+const { DEPOSIT_REGEX, DEPOSIT_ENUMS } = require('../../consts/deposit');
 
 const DepositTransactionsScheme = new Schema({
-    type: {type: String, enum: ["Cash In", "Cash Out"], required: true},
+    type: {type: String, enum: DEPOSIT_ENUMS.deposit_transactions_type, required: true},
     target_iban: {
         type: String, required: true, validate: {
             validator: (v) => {
-                return IBAN.test(v);
+                return DEPOSIT_REGEX.iban.test(v);
             },
             message: props => `${props.value} invalid value`
         },
@@ -16,7 +14,7 @@ const DepositTransactionsScheme = new Schema({
     sum: { 
         type: String, required: true, validate: {
             validator: (v) => {
-                return SUM_REGEX.test(v);
+                return DEPOSIT_REGEX.money.test(v);
             },
             message: props => `${props.value} invalid value`
         },

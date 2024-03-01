@@ -7,6 +7,7 @@ const migr = require('./migr/deposits');
 const PORT = process.env.PORT;
 const errorMiddleware = require('./middlewares/error-middleware');
 const clientRouter = require('./routers/client-router');
+const depositRouter = require('./routers/deposit-router');
 
 app.use(cors({
     origin: process.env.CLIENT_URL,
@@ -14,6 +15,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use('/api/clients', clientRouter);
+app.use('/api/deposit', depositRouter);
 app.use(errorMiddleware);
 
 const start = async () => {

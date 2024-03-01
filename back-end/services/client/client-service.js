@@ -1,7 +1,7 @@
-const clientModel = require('../models/client-model');
-const ClientDTO = require('../dtos/client-dto');
-const getDTOs = require('../utils/get-dtos');
-const ApiError = require('../exceptions/api-error');
+const clientModel = require('../../models/clients/client-model');
+const ClientDTO = require('../../dtos/client/client-dto');
+const getDTOs = require('../../utils/get-dtos');
+const ApiError = require('../../exceptions/api-error');
 
 class ClientService {
     async get(page, limit) {

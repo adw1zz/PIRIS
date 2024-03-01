@@ -1,6 +1,5 @@
 const { Schema, model } = require('mongoose');
-
-const SUM_REGEX = /^\d{1,3}(\.\d{3})*,\d{2}$/;
+const { DEPOSIT_REGEX } = require('../../consts/deposit');
 const getLastFourCharsOfHexTimestamp = () => Date.now().toString(16);
 
 const BankFundAccountScheme = new Schema({
@@ -8,7 +7,7 @@ const BankFundAccountScheme = new Schema({
     cash_capital: {
         type: String, required: true, validate: {
             validator: (v) => {
-                return SUM_REGEX.test(v);
+                return DEPOSIT_REGEX.money.test(v);
             },
             message: props => `${props.value} invalid value`
         },

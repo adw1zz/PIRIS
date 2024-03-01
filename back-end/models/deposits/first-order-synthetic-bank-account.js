@@ -1,14 +1,20 @@
 const { Schema, model } = require('mongoose');
-
-const SUM_REGEX = /^\d{1,3}(\.\d{3})*,\d{2}$/;
+const { DEPOSIT_REGEX } = require('../../consts/deposit');
 
 const FirstOrderSyntheticBankAccountScheme = new Schema({
     fund_account: { type: Schema.Types.ObjectId, ref: "BankFundAccount", required: true },
-    account_number: { type: String, required: true, unique: true }, //3 цифры
+    account_number: {
+        type: String, required: true, unique: true, validate: {
+            validator: (v) => {
+                return DEPOSIT_REGEX.first_order_synthetic_bank_account_number.test(v);
+            },
+            message: props => `${props.value} invalid value`
+        },
+    },
     sum: {
         type: String, required: true, validate: {
             validator: (v) => {
-                return SUM_REGEX.test(v);
+                return DEPOSIT_REGEX.money.test(v);
             },
             message: props => `${props.value} invalid value`
         },
@@ -16,10 +22,10 @@ const FirstOrderSyntheticBankAccountScheme = new Schema({
     },
     currency: { type: String, default: 'BYN', required: true },
     second_order_synthetic_bank_accounts: [
-        { type: Schema.Types.ObjectId, ref: "SecondOrderSyntheticBankAccount"},
+        { type: Schema.Types.ObjectId, ref: "SecondOrderSyntheticBankAccount" },
     ],
     second_order_synthetic_bank_percent_accounts: [
-        { type: Schema.Types.ObjectId, ref: "SecondOrderSyntheticBankPercentAccount"},
+        { type: Schema.Types.ObjectId, ref: "SecondOrderSyntheticBankPercentAccount" },
     ],
 })
 

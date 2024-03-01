@@ -1,5 +1,5 @@
 const ApiError = require('../exceptions/api-error');
-const clientSercvice = require('../services/client-service');
+const clientSercvice = require('../services/client/client-service');
 const { validationResult } = require('express-validator');
 
 class ClientController {
