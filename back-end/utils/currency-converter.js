@@ -1,4 +1,4 @@
-module.exports = class CurrencyConverter {
+class CurrencyConverter {
     static stringToNumber(str = "0.000,00") {
         const numberString = str.replace(/\./g, '').replace(',', '.');
         return parseFloat(numberString);
@@ -11,3 +11,5 @@ module.exports = class CurrencyConverter {
         return parts.join(",");
     }
 }
+
+module.exports = CurrencyConverter;

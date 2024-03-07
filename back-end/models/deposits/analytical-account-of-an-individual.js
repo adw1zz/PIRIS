@@ -10,7 +10,14 @@ const IndividualAnalyticalAccountScheme = new Schema({
             message: props => `${props.value} invalid value`
         },
     },
-    contract_number: { type: String, required: true },
+    contract_number: {
+        type: String, required: true, validate: {
+            validator: (v) => {
+                return DEPOSIT_REGEX.deposit_contract_number.test(v);
+            },
+            message: props => `${props.value} invalid value`
+        }
+    },
     sum: {
         type: String, required: true, validate: {
             validator: (v) => {

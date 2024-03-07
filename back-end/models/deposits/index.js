@@ -4,6 +4,7 @@ const depositContractModel = require('./deposit-contract-model');
 const depositLineModel = require('./deposit-line-model');
 const firstOrderSyntheticBankAccountModel = require('./first-order-synthetic-bank-account');
 const secondOrderSyntheticBankAccountModel = require('./second-order-synthetic-bank-account');
-const secondOrderSyntheticBankPercentAccount = require('./second-order-synthetic-bank-percent-account');
+const secondOrderSyntheticBankPercentAccountModel = require('./second-order-synthetic-bank-percent-account');
+const depositTransactionsModel = require('./deposit-transactions');
 
-module.exports = {individualAnalyticalAccountModel, bankFundAccountModel, depositContractModel,  depositLineModel, firstOrderSyntheticBankAccountModel, secondOrderSyntheticBankAccountModel, secondOrderSyntheticBankPercentAccount }
+module.exports = {individualAnalyticalAccountModel, bankFundAccountModel, depositContractModel,  depositLineModel, firstOrderSyntheticBankAccountModel, secondOrderSyntheticBankAccountModel, secondOrderSyntheticBankPercentAccountModel, depositTransactionsModel}
