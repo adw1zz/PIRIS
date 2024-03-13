@@ -71,7 +71,7 @@ class DepositController {
                 return next(ApiError.BadRequest('Некорректные данные', errors.array()))
             }
             const { data } = req.body;
-            await depositService.percent();
+            await depositService.percent(data);
             return res.json({ message: 'Success' });
         } catch (e) {
             next(e);

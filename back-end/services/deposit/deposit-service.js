@@ -117,7 +117,7 @@ class DepositService {
             for (let i = 0; i < indAccounts.length; i++) {
                 secondOrderSyntheticBankAccountTotalSum += CurrencyConverter.stringToNumber(indAccounts[i].sum);
             }
-            secondOrderSyntheticBankAccount.sum = CurrencyConverter.numberToString(totalSum);
+            secondOrderSyntheticBankAccount.sum = CurrencyConverter.numberToString(secondOrderSyntheticBankAccountTotalSum);
             await secondOrderSyntheticBankAccount.save();
             const firstOrderSyntheticBankAccount = await firstOrderSyntheticBankAccountModel.findOne({ account_number: "001" });
             const secAccounts = await secondOrderSyntheticBankAccountModel.find({ '_id': { $in: firstOrderSyntheticBankAccount.second_order_synthetic_bank_accounts } });
@@ -163,24 +163,24 @@ class DepositService {
         const cashOutTransactions = await depositTransactionsModel.find({ type: "Cash Out" });
         if (cashOutTransactions.length > 0) {
             const secondOrderSyntheticBankAccount = await secondOrderSyntheticBankAccountModel.findOne({ account_number: "00101" });
-            let secondOrderSyntheticBankAccountTotalSum = CurrencyConverter.stringToNumber(secondOrderSyntheticBankAccount.sum);
+            let secondOrderSyntheticBankAccountTotalSum = 0;
             const indAccounts = await individualAnalyticalAccountModel.find({ '_id': { $in: secondOrderSyntheticBankAccount.individual_analytical_accounts } });
             for (let i = 0; i < indAccounts.length; i++) {
-                secondOrderSyntheticBankAccountTotalSum -= CurrencyConverter.stringToNumber(indAccounts[i].sum);
+                secondOrderSyntheticBankAccountTotalSum += CurrencyConverter.stringToNumber(indAccounts[i].sum);
             }
-            secondOrderSyntheticBankAccount.sum = CurrencyConverter.numberToString(totalSum);
+            secondOrderSyntheticBankAccount.sum = CurrencyConverter.numberToString(secondOrderSyntheticBankAccountTotalSum);
             await secondOrderSyntheticBankAccount.save();
             const firstOrderSyntheticBankAccount = await firstOrderSyntheticBankAccountModel.findOne({ account_number: "001" });
             const secAccounts = await secondOrderSyntheticBankAccountModel.find({ '_id': { $in: firstOrderSyntheticBankAccount.second_order_synthetic_bank_accounts } });
-            let firstOrderSyntheticBankAccountTotalSum = CurrencyConverter.stringToNumber(firstOrderSyntheticBankAccount.sum);
+            let firstOrderSyntheticBankAccountTotalSum = 0;
             for (let i = 0; i < secAccounts.length; i++) {
-                firstOrderSyntheticBankAccountTotalSum -= CurrencyConverter.stringToNumber(secAccounts[i].sum);
+                firstOrderSyntheticBankAccountTotalSum += CurrencyConverter.stringToNumber(secAccounts[i].sum);
             }
             firstOrderSyntheticBankAccount.sum = CurrencyConverter.numberToString(firstOrderSyntheticBankAccountTotalSum);
             await firstOrderSyntheticBankAccount.save();
-            const bankFundAccount = await bankFundAccountModel.findById('65e08c077063302f157fc985');
-            const prevSum = CurrencyConverter.stringToNumber(bankFundAccount.cash_capital);
-            bankFundAccount.cash_capital = CurrencyConverter.numberToString(prevSum - firstOrderSyntheticBankAccountTotalSum);
+            const bankFundAccount = await bankFundAccountModel.findById(firstOrderSyntheticBankAccount.fund_account);
+            //const prevSum = CurrencyConverter.stringToNumber(bankFundAccount.cash_capital);
+            bankFundAccount.cash_capital = CurrencyConverter.numberToString(1000000000 + firstOrderSyntheticBankAccountTotalSum);
             await bankFundAccount.save();
             const ibans = cashInTransactions.map((doc) => {
                 return doc.target_iban;
